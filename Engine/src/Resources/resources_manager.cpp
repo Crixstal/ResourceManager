@@ -69,11 +69,18 @@ namespace Resources
 		loadShaderProgram("depthShader", "resources/shaders/depthShader.vert", "resources/shaders/depthShader.frag");
 		loadShaderProgram("depthCubeShader", "resources/shaders/depthCubeShader.vert", "resources/shaders/depthShader.frag", "resources/shaders/depthCubeShader.geom");
 
-		loadObj("resources/obj/cube.obj");
-		loadObj("resources/obj/sphere.obj");
-		loadObj("resources/obj/plane.obj");
-		loadObj("resources/obj/colliders/boxCollider.obj");
-		loadObj("resources/obj/colliders/sphereCollider.obj");
+
+		for (int i = 0; i < RM->objPath.size(); ++i)
+			RM->trd.push_back(std::thread{ &ResourcesManager::loadObj, RM->objPath[i]});
+
+		for (int i = 0; i < RM->objPath.size(); ++i)
+			RM->trd[i].join();
+
+		//loadObj("resources/obj/cube.obj");
+		//loadObj("resources/obj/sphere.obj");
+		//loadObj("resources/obj/plane.obj");
+		//loadObj("resources/obj/colliders/boxCollider.obj");
+		//loadObj("resources/obj/colliders/sphereCollider.obj");
 
 		// Set default textures and materials
 		RM->setDefaultResources();

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <thread>
 
 #include "singleton.hpp"
 
@@ -28,7 +29,7 @@ namespace Resources
 		~ResourcesManager();
 
 		std::unordered_map<std::string, std::vector<std::string>>		childrenMeshes;
-		std::unordered_map<std::string, std::string>		childrenMaterials;
+		std::unordered_map<std::string, std::string>					childrenMaterials;
 
 		std::unordered_map<std::string, std::shared_ptr<Texture>>		textures;
 		std::unordered_map<std::string, std::shared_ptr<CubeMap>>		cubeMaps;
@@ -39,7 +40,7 @@ namespace Resources
 		std::unordered_map<std::string, std::shared_ptr<Shader>>		shaders;
 		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderPrograms;
 
-		std::unordered_map<std::string, std::shared_ptr<Recipe>> recipes;
+		std::unordered_map<std::string, std::shared_ptr<Recipe>>		recipes;
 
 		void setDefaultResources();
 
@@ -56,6 +57,15 @@ namespace Resources
 		}
 
 	public:
+		std::vector<std::thread> trd;
+		std::vector<std::string> objPath = {
+			"resources/obj/cube.obj",
+			"resources/obj/sphere.obj",
+			"resources/obj/plane.obj",
+			"resources/obj/colliders/boxCollider.obj",
+			"resources/obj/colliders/sphereCollider.obj"
+		};
+
 		static void init();
 
 		static void loadObj(const std::string& filePath);
