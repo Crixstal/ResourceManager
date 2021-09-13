@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #include "debug.hpp"
 
@@ -70,17 +71,17 @@ namespace Resources
 		loadShaderProgram("depthCubeShader", "resources/shaders/depthCubeShader.vert", "resources/shaders/depthShader.frag", "resources/shaders/depthCubeShader.geom");
 
 
-		for (int i = 0; i < RM->objPath.size(); ++i)
+		/*for (int i = 0; i < RM->objPath.size(); ++i)
 			RM->trd.push_back(std::thread{ &ResourcesManager::loadObj, RM->objPath[i]});
 
 		for (int i = 0; i < RM->objPath.size(); ++i)
-			RM->trd[i].join();
+			RM->trd[i].join();*/
 
-		//loadObj("resources/obj/cube.obj");
-		//loadObj("resources/obj/sphere.obj");
-		//loadObj("resources/obj/plane.obj");
-		//loadObj("resources/obj/colliders/boxCollider.obj");
-		//loadObj("resources/obj/colliders/sphereCollider.obj");
+		loadObj("resources/obj/cube.obj");
+		loadObj("resources/obj/sphere.obj");
+		loadObj("resources/obj/plane.obj");
+		loadObj("resources/obj/colliders/boxCollider.obj");
+		loadObj("resources/obj/colliders/sphereCollider.obj");
 
 		// Set default textures and materials
 		RM->setDefaultResources();
@@ -143,7 +144,20 @@ namespace Resources
 		return RM->fonts[fontPath] = std::make_shared<Font>(Font(fontPath));
 	}
 
-	std::shared_ptr<Texture> ResourcesManager::loadTexture(const std::string& texturePath)
+	std::shared_ptr<Texture> ResourcesManager::getTexture(const std::string& texturePath)
+	{
+		ResourcesManager* RM = instance();
+
+		if (std::filesystem::exists(texturePath))
+			ResourcesManager::loadTexturePath(texturePath);
+
+		else
+			Core::Debug::Log::info("Texture " + texturePath + "doesn't exists");
+
+		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+	}
+
+	std::shared_ptr<Texture> ResourcesManager::loadTexturePath(const std::string& texturePath)
 	{
 		ResourcesManager* RM = instance();
 
@@ -414,15 +428,15 @@ namespace Resources
 
 			// Load mesh textures
 			if (type == "map_Ka")
-				mat.ambientTex  = ResourcesManager::loadTexture(dirPath + Utils::getFileNameFromPath(texName));
+				mat.ambientTex  = ResourcesManager::getTexture(dirPath + Utils::getFileNameFromPath(texName));
 			else if (type == "map_Kd")
-				mat.diffuseTex  = ResourcesManager::loadTexture(dirPath + Utils::getFileNameFromPath(texName));
+				mat.diffuseTex  = ResourcesManager::getTexture(dirPath + Utils::getFileNameFromPath(texName));
 			else if (type == "map_Ks")
-				mat.specularTex = ResourcesManager::loadTexture(dirPath + Utils::getFileNameFromPath(texName));
+				mat.specularTex = ResourcesManager::getTexture(dirPath + Utils::getFileNameFromPath(texName));
 			else if (type == "map_Ke")
-				mat.emissiveTex = ResourcesManager::loadTexture(dirPath + Utils::getFileNameFromPath(texName));
+				mat.emissiveTex = ResourcesManager::getTexture(dirPath + Utils::getFileNameFromPath(texName));
 			else if (type == "map_d")
-				mat.alphaTex    = ResourcesManager::loadTexture(dirPath + Utils::getFileNameFromPath(texName));
+				mat.alphaTex    = ResourcesManager::getTexture(dirPath + Utils::getFileNameFromPath(texName));
 		}
 
 		// Add the material
