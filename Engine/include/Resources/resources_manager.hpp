@@ -56,7 +56,6 @@ namespace Resources
 			}
 		}
 
-	public:
 		std::vector<std::thread> trd;
 		std::vector<std::string> objPath = {
 			"resources/obj/cube.obj",
@@ -66,6 +65,7 @@ namespace Resources
 			"resources/obj/colliders/sphereCollider.obj"
 		};
 
+	public:
 		static void init();
 
 		static void loadObj(const std::string& filePath);

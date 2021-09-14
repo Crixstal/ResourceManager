@@ -149,12 +149,13 @@ namespace Resources
 		ResourcesManager* RM = instance();
 
 		if (std::filesystem::exists(texturePath))
-			ResourcesManager::loadTexturePath(texturePath);
+			return ResourcesManager::loadTexturePath(texturePath);
 
 		else
-			Core::Debug::Log::info("Texture " + texturePath + "doesn't exists");
-
-		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+		{
+			//return RM->textures[texturePath] = NULL;
+			return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+		}
 	}
 
 	std::shared_ptr<Texture> ResourcesManager::loadTexturePath(const std::string& texturePath)
