@@ -8,16 +8,23 @@
 
 namespace Resources
 {
-	 std::shared_ptr<Texture> Texture::defaultAlpha = nullptr;
-	 std::shared_ptr<Texture> Texture::defaultAmbient = nullptr;
-	 std::shared_ptr<Texture> Texture::defaultDiffuse = nullptr;
-	 std::shared_ptr<Texture> Texture::defaultEmissive = nullptr;
-	 std::shared_ptr<Texture> Texture::defaultSpecular = nullptr;
+	std::shared_ptr<Texture> Texture::defaultAlpha = nullptr;
+	std::shared_ptr<Texture> Texture::defaultAmbient = nullptr;
+	std::shared_ptr<Texture> Texture::defaultDiffuse = nullptr;
+	std::shared_ptr<Texture> Texture::defaultEmissive = nullptr;
+	std::shared_ptr<Texture> Texture::defaultSpecular = nullptr;
 
 
 	Texture::Texture(const std::string& filePath)
 		: Resource(filePath)
 	{
+		//trd.push_back(std::thread{&Texture::stbiTexture, filePath});
+		//
+		//for (int i = 0; i < trd.size() ; ++i)
+		//	trd[i].join();
+
+
+
 		stbi_set_flip_vertically_on_load(true);
 
 		int width = 0, height = 0;
@@ -47,6 +54,29 @@ namespace Resources
 	Texture::~Texture()
 	{
 		glDeleteTextures(1, &textureID);
+	}
+
+	void Texture::stbiTexture(const std::string& filePath)
+	{
+		stbi_set_flip_vertically_on_load(true);
+
+		int width = 0, height = 0;
+		int channel = 0;
+
+		// Get the color buffer by using stbi
+		float* colorBuffer = stbi_loadf(filePath.c_str(), &width, &height, &channel, STBI_rgb_alpha);
+
+		if (colorBuffer)
+		{
+			Core::Debug::Log::info("Loading of " + filePath + " done with success");
+
+			generateID(width, height, colorBuffer);
+
+			// Free the color buffer allocated by stbi
+			stbi_image_free(colorBuffer);
+		}
+		else
+			Core::Debug::Log::error("Cannot find the texture file at " + filePath);
 	}
 
 	void Texture::generateID(int width, int height, float* colorBuffer)

@@ -148,29 +148,37 @@ namespace Resources
 	{
 		ResourcesManager* RM = instance();
 
-		if (std::filesystem::exists(texturePath))
-			return ResourcesManager::loadTexturePath(texturePath);
+		//auto textureIt = RM->textures.find(texturePath);
 
-		else
+		//if (textureIt == RM->textures.end())
+		if (RM->textures.find(texturePath) == RM->textures.end())
 		{
-			//return RM->textures[texturePath] = NULL;
-			return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+			Core::Debug::Log::error("Can not find texture at " + texturePath);
+			return nullptr;
 		}
+
+		//return ResourcesManager::loadTexturePath(textureIt->second);
+		//ResourcesManager::loadTexturePath(texturePath);
+
+		RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
 	}
 
-	std::shared_ptr<Texture> ResourcesManager::loadTexturePath(const std::string& texturePath)
+	void ResourcesManager::loadTexturePath(const std::string& texturePath)
 	{
 		ResourcesManager* RM = instance();
+
+		RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+
+
+		/*ResourcesManager* RM = instance();
 
 		const auto& textureIt = RM->textures.find(texturePath);
 
 		// Check if the Texture is already loaded
 		if (textureIt != RM->textures.end())
-		{
 			return textureIt->second;
-		}
 
-		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);*/
 	}
 
 	std::shared_ptr<Texture> ResourcesManager::loadTexture(const std::string& name, int width, int height, float* data)

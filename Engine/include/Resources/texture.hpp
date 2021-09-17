@@ -2,11 +2,12 @@
 
 #include <string>
 #include <memory>
+#include <thread>
+#include <vector>
 
 #include <glad/glad.h>
 
 #include "resource.hpp"
-
 #include "maths.hpp"
 
 namespace Resources
@@ -16,12 +17,16 @@ namespace Resources
 	private:
 		GLuint textureID = 0;
 		
+		std::vector<std::thread> trd;
+		
 		void generateID(int width, int height, float* colorBuffer);
 
 	public:
 		Texture(const std::string& filePath);
 		Texture(int width, int height, float* colorBuffer);
 		~Texture();
+
+		void stbiTexture(const std::string& filePath);
 
 		GLuint getID() const;
 
