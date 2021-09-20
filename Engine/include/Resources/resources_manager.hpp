@@ -74,8 +74,7 @@ namespace Resources
 		static void clearResources();
 
 		static std::shared_ptr<Font> loadFont(const std::string& fontPath);
-		static std::shared_ptr<Texture> getTexture(const std::string& texturePath);
-		static void loadTexturePath(const std::string& texturePath);
+		static std::shared_ptr<Texture> loadTexturePath(const std::string& texturePath);
 		static std::shared_ptr<Texture> loadTexture(const std::string& name, int width, int height, float* data);
 		static std::shared_ptr<CubeMap> loadCubeMap(const std::vector<std::string>& cubeMapPaths);
 		static std::shared_ptr<Material> loadMaterial(const std::string& materialPath);

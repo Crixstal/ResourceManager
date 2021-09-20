@@ -26,7 +26,8 @@ namespace Resources
 		Texture(int width, int height, float* colorBuffer);
 		~Texture();
 
-		void stbiTexture(const std::string& filePath);
+		void checkTexture(const std::string& filePath);
+		void truc(int width, int height, float* colorBuffer);
 
 		GLuint getID() const;
 
