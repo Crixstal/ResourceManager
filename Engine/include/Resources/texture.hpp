@@ -17,8 +17,6 @@ namespace Resources
 	private:
 		GLuint textureID = 0;
 		
-		std::vector<std::thread> trd;
-		
 		void generateID(int width, int height, float* colorBuffer);
 
 	public:
@@ -26,8 +24,8 @@ namespace Resources
 		Texture(int width, int height, float* colorBuffer);
 		~Texture();
 
-		void checkTexture(const std::string& filePath);
-		void truc(int width, int height, float* colorBuffer);
+		//void loadTexture(const std::string& filePath);
+		//void generateAndFree(int width, int height, float* colorBuffer);
 
 		GLuint getID() const;
 

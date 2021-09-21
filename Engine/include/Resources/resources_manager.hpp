@@ -57,13 +57,14 @@ namespace Resources
 		}
 
 		std::vector<std::thread> trd;
-		std::vector<std::string> objPath = {
-			"resources/obj/cube.obj",
-			"resources/obj/sphere.obj",
-			"resources/obj/plane.obj",
-			"resources/obj/colliders/boxCollider.obj",
-			"resources/obj/colliders/sphereCollider.obj"
-		};
+
+		//std::vector<std::string> objPath = {
+		//	"resources/obj/cube.obj",
+		//	"resources/obj/sphere.obj",
+		//	"resources/obj/plane.obj",
+		//	"resources/obj/colliders/boxCollider.obj",
+		//	"resources/obj/colliders/sphereCollider.obj"
+		//};
 
 	public:
 		static void init();
