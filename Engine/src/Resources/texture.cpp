@@ -18,16 +18,6 @@ namespace Resources
 	Texture::Texture(const std::string& filePath)
 		: Resource(filePath)
 	{
-		//trd.push_back(std::thread{&Texture::loadTexture, this, filePath});
-		
-		//MOVE
-		//for (int i = 0; i < trd.size() ; ++i)
-		//	trd[i].join();
-
-		//for (int i = 0; i < m_width.size(); ++i)
-		//	generateAndFree(m_width[i], m_height[i], m_colorBuffer[i]);
-
-
 		stbi_set_flip_vertically_on_load_thread(true);
 
 		int width = 0, height = 0;
@@ -56,30 +46,6 @@ namespace Resources
 	{
 		glDeleteTextures(1, &textureID);
 	}
-
-	/*void Texture::loadTexture(const std::string& filePath)
-	{
-		stbi_set_flip_vertically_on_load_thread(true);
-
-		int width = 0, height = 0;
-		int channel = 0;
-
-		// Get the color buffer by using stbi
-		float* colorBuffer = stbi_loadf(filePath.c_str(), &width, &height, &channel, STBI_rgb_alpha);
-
-		if (colorBuffer)
-			Core::Debug::Log::info("Loading of " + filePath + " done with success");
-		else
-			Core::Debug::Log::error("Cannot find the texture file at " + filePath);
-	}
-
-	void Texture::generateAndFree(int width, int height, float* colorBuffer)
-	{
-		generateID(width, height, colorBuffer);
-
-		// Free the color buffer allocated by stbi
-		stbi_image_free(colorBuffer);
-	}*/
 
 	void Texture::generateID(int width, int height, float* colorBuffer)
 	{

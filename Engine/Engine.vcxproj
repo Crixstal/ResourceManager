@@ -236,6 +236,7 @@
     <ClCompile Include="src\Resources\resources_manager.cpp" />
     <ClCompile Include="src\Resources\shader.cpp" />
     <ClCompile Include="src\Resources\texture.cpp" />
+    <ClCompile Include="src\Resources\thread_manager.cpp" />
     <ClCompile Include="src\Utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +339,7 @@
     <ClInclude Include="include\Resources\resources_manager.hpp" />
     <ClInclude Include="include\Resources\shader.hpp" />
     <ClInclude Include="include\Resources\texture.hpp" />
+    <ClInclude Include="include\Resources\thread_manager.hpp" />
     <ClInclude Include="include\Utils\singleton.hpp" />
     <ClInclude Include="include\Utils\type_at.hpp" />
     <ClInclude Include="include\Utils\utils.hpp" />

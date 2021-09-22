@@ -3,9 +3,9 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include <thread>
 
 #include "singleton.hpp"
+#include "thread_manager.hpp"
 
 #include "character.hpp"
 #include "cube_map.hpp"

@@ -349,6 +349,9 @@
     <ClCompile Include="src\Game\lose_screen.cpp">
       <Filter>Fichiers sources\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Resources\thread_manager.cpp">
+      <Filter>Fichiers sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\stb_image.h">
@@ -660,6 +663,9 @@
     </ClInclude>
     <ClInclude Include="include\Game\win_screen.hpp">
       <Filter>Fichiers d%27en-tête\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Resources\thread_manager.hpp">
+      <Filter>Fichiers d%27en-tête\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,6 @@
 
 #include <string>
 #include <memory>
-#include <thread>
-#include <vector>
 
 #include <glad/glad.h>
 
@@ -23,9 +21,6 @@ namespace Resources
 		Texture(const std::string& filePath);
 		Texture(int width, int height, float* colorBuffer);
 		~Texture();
-
-		//void loadTexture(const std::string& filePath);
-		//void generateAndFree(int width, int height, float* colorBuffer);
 
 		GLuint getID() const;
 
