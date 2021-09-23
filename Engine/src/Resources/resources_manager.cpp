@@ -18,6 +18,7 @@ namespace Resources
 
 	ResourcesManager::~ResourcesManager()
 	{
+		threadPool.isStopped = true;
 		Core::Debug::Log::info("Destroying the Resources Manager");
 	}
 
@@ -71,11 +72,8 @@ namespace Resources
 		loadShaderProgram("depthCubeShader", "resources/shaders/depthCubeShader.vert", "resources/shaders/depthShader.frag", "resources/shaders/depthCubeShader.geom");
 
 
-		/*for (int i = 0; i < RM->objPath.size(); ++i)
-			RM->trd.push_back(std::thread{ &ResourcesManager::loadObj, RM->objPath[i]});
-
-		for (int i = 0; i < RM->objPath.size(); ++i)
-			RM->trd[i].join();*/
+		//for (int i = 0; i < RM->objPath.size(); ++i)
+		//	RM->threadPool.addTask(std::bind(&ResourcesManager::loadObj, RM->objPath[i]));
 
 		loadObj("resources/obj/cube.obj");
 		loadObj("resources/obj/sphere.obj");
@@ -148,13 +146,31 @@ namespace Resources
 	{
 		ResourcesManager* RM = instance();
 
+		while (RM->spinLock.test_and_set())
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
 		const auto& textureIt = RM->textures.find(texturePath);
 
 		// Check if the Texture is already loaded
 		if (textureIt != RM->textures.end())
+		{
+			RM->spinLock.clear();
 			return textureIt->second;
+		}
 
-		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
+		RM->spinLock.clear();
+
+		float whiteBuffer[4] = { 1.f, 1.f, 1.f, 1.f };
+
+		RM->textures[texturePath] = std::make_shared<Texture>(1, 1, whiteBuffer);
+		RM->threadPool.addTask(std::bind(&ResourcesManager::fillTexture, RM, texturePath, RM->textures[texturePath]));
+		
+		return RM->textures[texturePath];
+	}
+
+	void ResourcesManager::fillTexture(const std::string& texturePath, std::shared_ptr<Texture> texture)
+	{
+		texture = std::make_shared<Texture>(texturePath);
 	}
 
 	std::shared_ptr<Texture> ResourcesManager::loadTexture(const std::string& name, int width, int height, float* data)
@@ -165,7 +181,10 @@ namespace Resources
 
 		// Check if the Texture is already loaded
 		if (textureIt != RM->textures.end())
+		{
+			RM->spinLock.clear();
 			return textureIt->second;
+		}
 
 		return RM->textures[name] = std::make_shared<Texture>(width, height, data);
 	}

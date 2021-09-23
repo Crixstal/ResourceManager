@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
+#include <atomic>
+#include <functional>
 
 #include "singleton.hpp"
 #include "thread_manager.hpp"
@@ -56,15 +58,8 @@ namespace Resources
 			}
 		}
 
-		std::vector<std::thread> trd;
-
-		//std::vector<std::string> objPath = {
-		//	"resources/obj/cube.obj",
-		//	"resources/obj/sphere.obj",
-		//	"resources/obj/plane.obj",
-		//	"resources/obj/colliders/boxCollider.obj",
-		//	"resources/obj/colliders/sphereCollider.obj"
-		//};
+		Core::Engine::ThreadManager threadPool;
+		std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
 
 	public:
 		static void init();
@@ -73,6 +68,8 @@ namespace Resources
 		static void loadMaterialsFromMtl(const std::string& dirPath, const std::string& fileName);
 
 		static void clearResources();
+
+		void fillTexture(const std::string& texturePath, std::shared_ptr<Texture> texture);
 
 		static std::shared_ptr<Font> loadFont(const std::string& fontPath);
 		static std::shared_ptr<Texture> loadTexturePath(const std::string& texturePath);

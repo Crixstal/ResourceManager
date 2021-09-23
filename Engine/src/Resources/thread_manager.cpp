@@ -1,54 +1,50 @@
 #include "thread_manager.hpp"
+#include "texture.hpp"
 
-namespace Resources
+namespace Core::Engine
 {
 	ThreadManager::ThreadManager()
 	{
 		for (int i = 0; i < maxThread; i++)
-			trd.push_back(std::thread(&infiniteLoop, this));
+			trd.push_back(std::thread(&ThreadManager::infiniteLoop, this));
 	}
 
 	ThreadManager::~ThreadManager()
 	{
-		
+		for (int i = 0; i < trd.size(); ++i)
+			trd[i].join();
 	}
 
 	void ThreadManager::addTask(std::function<void()> task)
 	{
-		while (true)
-		{
-			while (lock.test_and_set());
+		//while (!isStopped)
+		//{
+			while (spinLock.test_and_set()) {}
 
-			taskList.push(task);
+			taskList.push_back(task);
 
-			lock.clear();
-		}
+			spinLock.clear();
+		//}
 	}
 
 	void ThreadManager::infiniteLoop()
 	{
-		while (true)
+		while (!isStopped)
 		{
-			//while (lock.test_and_set())
-			while (!dataReady.load())
-				std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			while (spinLock.test_and_set()) {};
 
-			//if (taskList.empty())
-				//atomic_flag_wait(lock);
-				//varCondition.wait(lock);
-
-			for (int i = 0; i < taskList.size(); ++i)
+			if (!taskList.empty())
 			{
-				if (!taskList.empty())
-					job = taskList[i];
-				else
-					std::this_thread::sleep_for(std::chrono::milliseconds(1000)); //value to determine
+				std::function<void()> job = taskList.front();
+				taskList.pop_front();
+				spinLock.clear();
+				job;
 			}
-
-			dataReady = true;
-			//lock.clear();
-
-			job();
+			else
+			{
+				spinLock.clear();
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			}
 		}
 	}
 }

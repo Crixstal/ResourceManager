@@ -3,11 +3,15 @@
 #include <vector>
 #include <thread>
 #include <atomic>
-#include <queue>
+#include <deque>
 #include <functional>
 #include <chrono>
 
-namespace Resources
+#include "singleton.hpp"
+
+class Texture;
+
+namespace Core::Engine
 {
 	class ThreadManager
 	{
@@ -16,15 +20,13 @@ namespace Resources
 
 			std::vector<std::thread> trd;
 
-			std::queue<std::function<void()>> taskList;
+			std::deque<std::function<void()>> taskList;
 
-			std::function<void()> job;
-
-			std::atomic_flag lock = ATOMIC_FLAG_INIT;
-
-			std::atomic<bool> dataReady{false};
+			std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
 
 		public:
+			std::atomic<bool> isStopped{false};
+
 			ThreadManager();
 			~ThreadManager();
 
