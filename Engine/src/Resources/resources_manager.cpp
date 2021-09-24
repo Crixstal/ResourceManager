@@ -18,7 +18,7 @@ namespace Resources
 
 	ResourcesManager::~ResourcesManager()
 	{
-		threadPool.isStopped = true;
+		//threadPool.isStopped = true;
 		Core::Debug::Log::info("Destroying the Resources Manager");
 	}
 
@@ -83,8 +83,6 @@ namespace Resources
 
 		// Set default textures and materials
 		RM->setDefaultResources();
-
-		std::shared_ptr<float> test;
 	}
 
 	void ResourcesManager::clearResources()
@@ -146,9 +144,6 @@ namespace Resources
 	{
 		ResourcesManager* RM = instance();
 
-		while (RM->spinLock.test_and_set())
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
 		const auto& textureIt = RM->textures.find(texturePath);
 
 		// Check if the Texture is already loaded
@@ -158,14 +153,14 @@ namespace Resources
 			return textureIt->second;
 		}
 
-		RM->spinLock.clear();
-
-		float whiteBuffer[4] = { 1.f, 1.f, 1.f, 1.f };
-
+		/*float whiteBuffer[4] = {1.f, 1.f, 1.f, 1.f};
 		RM->textures[texturePath] = std::make_shared<Texture>(1, 1, whiteBuffer);
+
 		RM->threadPool.addTask(std::bind(&ResourcesManager::fillTexture, RM, texturePath, RM->textures[texturePath]));
-		
-		return RM->textures[texturePath];
+
+		return RM->textures[texturePath]*/;
+
+		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
 	}
 
 	void ResourcesManager::fillTexture(const std::string& texturePath, std::shared_ptr<Texture> texture)
@@ -440,6 +435,16 @@ namespace Resources
 			else if (type == "map_d")
 				mat.alphaTex    = ResourcesManager::loadTexturePath(dirPath + Utils::getFileNameFromPath(texName));
 		}
+
+		//bool areResourcesLoaded = false;
+		//do
+		//{
+		//	for (auto& [name, text] : RM->textures)
+		//	{
+		//		if (text->resourceFlag == ResourceStatus::LOADED)
+		//			areResourcesLoaded = true;
+		//	}
+		//} while (!areResourcesLoaded);
 
 		// Add the material
 		*ResourcesManager::loadMaterial(mat.m_name) = mat;

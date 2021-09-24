@@ -197,6 +197,7 @@
     <ClCompile Include="src\Engine\Physics\Toolbox\intersection.cpp" />
     <ClCompile Include="src\Engine\Physics\Toolbox\referential.cpp" />
     <ClCompile Include="src\Engine\Physics\transform.cpp" />
+    <ClCompile Include="src\Engine\thread_manager.cpp" />
     <ClCompile Include="src\Engine\UI\button.cpp" />
     <ClCompile Include="src\Game\Gameplay\bullet_hole.cpp" />
     <ClCompile Include="src\Game\Gameplay\Enemy\enemy_life.cpp" />
@@ -236,7 +237,6 @@
     <ClCompile Include="src\Resources\resources_manager.cpp" />
     <ClCompile Include="src\Resources\shader.cpp" />
     <ClCompile Include="src\Resources\texture.cpp" />
-    <ClCompile Include="src\Resources\thread_manager.cpp" />
     <ClCompile Include="src\Utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +309,7 @@
     <ClInclude Include="include\Engine\Physics\Toolbox\quad.h" />
     <ClInclude Include="include\Engine\Physics\Toolbox\sphere.h" />
     <ClInclude Include="include\Engine\Physics\transform.hpp" />
+    <ClInclude Include="include\Engine\thread_manager.hpp" />
     <ClInclude Include="include\Engine\UI\button.hpp" />
     <ClInclude Include="include\Game\Gameplay\bullet_hole.hpp" />
     <ClInclude Include="include\Game\Gameplay\Enemy\enemy_life.hpp" />
@@ -339,7 +340,6 @@
     <ClInclude Include="include\Resources\resources_manager.hpp" />
     <ClInclude Include="include\Resources\shader.hpp" />
     <ClInclude Include="include\Resources\texture.hpp" />
-    <ClInclude Include="include\Resources\thread_manager.hpp" />
     <ClInclude Include="include\Utils\singleton.hpp" />
     <ClInclude Include="include\Utils\type_at.hpp" />
     <ClInclude Include="include\Utils\utils.hpp" />

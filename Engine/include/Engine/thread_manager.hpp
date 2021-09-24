@@ -7,10 +7,6 @@
 #include <functional>
 #include <chrono>
 
-#include "singleton.hpp"
-
-class Texture;
-
 namespace Core::Engine
 {
 	class ThreadManager
@@ -18,13 +14,13 @@ namespace Core::Engine
 		private:
 			int maxThread = std::thread::hardware_concurrency();
 
-			std::vector<std::thread> trd;
-
 			std::deque<std::function<void()>> taskList;
 
 			std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
 
 		public:
+			std::vector<std::thread> trd;
+
 			std::atomic<bool> isStopped{false};
 
 			ThreadManager();

@@ -1,8 +1,16 @@
 #pragma once
 #include <string>
+#include <atomic>
 
 namespace Resources
 {
+	enum class ResourceStatus
+	{
+		UNLOADED,
+		LOADING,
+		LOADED
+	};
+
 	class Resource
 	{
 	protected:
@@ -14,5 +22,6 @@ namespace Resources
 	public:
 		std::string m_name;
 		std::string getPath() const;
+		ResourceStatus resourceFlag;
 	};
 }

@@ -17,14 +17,11 @@ namespace Core::Engine
 
 	void ThreadManager::addTask(std::function<void()> task)
 	{
-		//while (!isStopped)
-		//{
-			while (spinLock.test_and_set()) {}
+		while (spinLock.test_and_set()) {}
 
-			taskList.push_back(task);
+		taskList.push_back(task);
 
-			spinLock.clear();
-		//}
+		spinLock.clear();
 	}
 
 	void ThreadManager::infiniteLoop()
@@ -38,7 +35,7 @@ namespace Core::Engine
 				std::function<void()> job = taskList.front();
 				taskList.pop_front();
 				spinLock.clear();
-				job;
+				job();
 			}
 			else
 			{

@@ -18,7 +18,7 @@ namespace Resources
 	Texture::Texture(const std::string& filePath)
 		: Resource(filePath)
 	{
-		stbi_set_flip_vertically_on_load_thread(true);
+		/*stbi_set_flip_vertically_on_load_thread(true);
 
 		int width = 0, height = 0;
 		int channel = 0;
@@ -29,12 +29,43 @@ namespace Resources
 		if (colorBuffer)
 			Core::Debug::Log::info("Loading of " + filePath + " done with success");
 		else
-			Core::Debug::Log::error("Cannot find the texture file at " + filePath);
+			Core::Debug::Log::error("Cannot find the texture file at " + filePath);*/
+
+		resourceFlag = ResourceStatus::UNLOADED;
+
+		threadPool.addTask(std::bind(&Texture::threadTexture, this, filePath));
+
+		while (resourceFlag != ResourceStatus::LOADED) {}
 
 		generateID(width, height, colorBuffer);
-
+	
 		// Free the color buffer allocated by stbi
-		stbi_image_free(colorBuffer);
+		for (int i = 0; threadPool.trd.size(); ++i)
+			stbi_image_free(cb[0]);
+
+		//stbi_image_free(colorBuffer);
+	}
+
+	void Texture::threadTexture(const std::string& filePath)
+	{
+		resourceFlag = ResourceStatus::LOADING;
+
+		stbi_set_flip_vertically_on_load_thread(true);
+
+		//int width = 0, height = 0;
+		int channel = 0;
+
+		// Get the color buffer by using stbi
+		//float* colorBuffer = stbi_loadf(filePath.c_str(), &width, &height, &channel, STBI_rgb_alpha);
+		colorBuffer = stbi_loadf(filePath.c_str(), &width, &height, &channel, STBI_rgb_alpha);
+		cb.push_back(colorBuffer);
+
+		if (colorBuffer)
+			Core::Debug::Log::info("Loading of " + filePath + " done with success");
+		else
+			Core::Debug::Log::error("Cannot find the texture file at " + filePath);
+
+		resourceFlag = ResourceStatus::LOADED;
 	}
 
 	Texture::Texture(int width, int height, float* colorBuffer)
