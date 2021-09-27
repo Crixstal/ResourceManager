@@ -18,7 +18,6 @@ namespace Resources
 
 	ResourcesManager::~ResourcesManager()
 	{
-		//threadPool.isStopped = true;
 		Core::Debug::Log::info("Destroying the Resources Manager");
 	}
 
@@ -140,6 +139,20 @@ namespace Resources
 		return RM->fonts[fontPath] = std::make_shared<Font>(Font(fontPath));
 	}
 
+	void ResourcesManager::updateTexture()
+	{
+		ResourcesManager* RM = instance();
+
+		for (auto& pair : RM->textures)
+		{
+			if (pair.second->resourceFlag == Resources::ResourceStatus::LOADED)
+			{
+				pair.second->resourceFlag = Resources::ResourceStatus::GLLOADED;
+				pair.second->generateAndFree();
+			}
+		}
+	}
+
 	std::shared_ptr<Texture> ResourcesManager::loadTexturePath(const std::string& texturePath)
 	{
 		ResourcesManager* RM = instance();
@@ -148,24 +161,9 @@ namespace Resources
 
 		// Check if the Texture is already loaded
 		if (textureIt != RM->textures.end())
-		{
-			RM->spinLock.clear();
 			return textureIt->second;
-		}
-
-		/*float whiteBuffer[4] = {1.f, 1.f, 1.f, 1.f};
-		RM->textures[texturePath] = std::make_shared<Texture>(1, 1, whiteBuffer);
-
-		RM->threadPool.addTask(std::bind(&ResourcesManager::fillTexture, RM, texturePath, RM->textures[texturePath]));
-
-		return RM->textures[texturePath]*/;
 
 		return RM->textures[texturePath] = std::make_shared<Texture>(texturePath);
-	}
-
-	void ResourcesManager::fillTexture(const std::string& texturePath, std::shared_ptr<Texture> texture)
-	{
-		texture = std::make_shared<Texture>(texturePath);
 	}
 
 	std::shared_ptr<Texture> ResourcesManager::loadTexture(const std::string& name, int width, int height, float* data)
@@ -176,10 +174,7 @@ namespace Resources
 
 		// Check if the Texture is already loaded
 		if (textureIt != RM->textures.end())
-		{
-			RM->spinLock.clear();
 			return textureIt->second;
-		}
 
 		return RM->textures[name] = std::make_shared<Texture>(width, height, data);
 	}
@@ -435,16 +430,6 @@ namespace Resources
 			else if (type == "map_d")
 				mat.alphaTex    = ResourcesManager::loadTexturePath(dirPath + Utils::getFileNameFromPath(texName));
 		}
-
-		//bool areResourcesLoaded = false;
-		//do
-		//{
-		//	for (auto& [name, text] : RM->textures)
-		//	{
-		//		if (text->resourceFlag == ResourceStatus::LOADED)
-		//			areResourcesLoaded = true;
-		//	}
-		//} while (!areResourcesLoaded);
 
 		// Add the material
 		*ResourcesManager::loadMaterial(mat.m_name) = mat;

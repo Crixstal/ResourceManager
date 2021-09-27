@@ -7,7 +7,6 @@
 #include <functional>
 
 #include "singleton.hpp"
-#include "thread_manager.hpp"
 
 #include "character.hpp"
 #include "cube_map.hpp"
@@ -58,9 +57,6 @@ namespace Resources
 			}
 		}
 
-		Core::Engine::ThreadManager threadPool;
-		std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
-
 	public:
 		static void init();
 
@@ -69,7 +65,7 @@ namespace Resources
 
 		static void clearResources();
 
-		void fillTexture(const std::string& texturePath, std::shared_ptr<Texture> texture);
+		static void updateTexture();
 
 		static std::shared_ptr<Font> loadFont(const std::string& fontPath);
 		static std::shared_ptr<Texture> loadTexturePath(const std::string& texturePath);

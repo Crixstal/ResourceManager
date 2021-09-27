@@ -9,6 +9,10 @@
 #include "graph.hpp"
 #include "time.hpp"
 
+#include "resources_manager.hpp"
+#include <iostream>
+
+
 namespace Core::Engine
 {
 	EngineMaster::EngineMaster()
@@ -45,6 +49,8 @@ namespace Core::Engine
 
 		if (Core::Input::InputManager::getButtonDown("Edit Toggle"))
 			EM->toggleEditMode();
+
+		Resources::ResourcesManager::updateTexture();
 
 		Graph::draw();
 

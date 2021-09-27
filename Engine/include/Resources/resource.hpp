@@ -8,7 +8,9 @@ namespace Resources
 	{
 		UNLOADED,
 		LOADING,
-		LOADED
+		LOADED,
+		GLLOADED,
+		FAIL
 	};
 
 	class Resource
@@ -22,6 +24,6 @@ namespace Resources
 	public:
 		std::string m_name;
 		std::string getPath() const;
-		ResourceStatus resourceFlag;
+		ResourceStatus resourceFlag = ResourceStatus::UNLOADED;
 	};
 }

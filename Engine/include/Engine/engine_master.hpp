@@ -2,6 +2,8 @@
 
 #include "singleton.hpp"
 
+#include "resource.hpp"
+
 namespace Core::Engine
 {
 	class EngineMaster final : public Singleton<EngineMaster>

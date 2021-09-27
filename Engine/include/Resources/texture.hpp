@@ -10,7 +10,7 @@
 #include "maths.hpp"
 #include "thread_manager.hpp"
 
-namespace Resources
+namespace Resources 
 {
 	class Texture : public Resource
 	{
@@ -20,8 +20,6 @@ namespace Resources
 		void generateID(int width, int height, float* colorBuffer);
 
 		Core::Engine::ThreadManager threadPool;
-		std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
-		std::vector<float*> cb;
 
 		void threadTexture(const std::string& filePath);
 		int width = 0, height = 0;
@@ -33,6 +31,8 @@ namespace Resources
 		~Texture();
 
 		GLuint getID() const;
+
+		void generateAndFree();
 
 		void bind(int textureIndex) const;
 
