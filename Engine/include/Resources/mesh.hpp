@@ -6,10 +6,11 @@
 #include <glad\glad.h>
 
 #include "maths.hpp"
+#include "resource.hpp"
 
 namespace Resources
 {
-	class Mesh
+	class Mesh : public Resource
 	{
 	private:
 		GLuint VAO;

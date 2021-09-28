@@ -17,7 +17,7 @@ namespace LowRenderer
 
 	Shadow::~Shadow()
 	{
-		glDeleteBuffers(1, &FBO);
+		glDeleteFramebuffers(1, &FBO);
 		glDeleteTextures(1, &ID);
 	}
 

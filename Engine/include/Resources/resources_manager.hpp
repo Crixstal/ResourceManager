@@ -8,6 +8,7 @@
 
 #include "singleton.hpp"
 
+#include "thread_manager.hpp"
 #include "character.hpp"
 #include "cube_map.hpp"
 #include "material.hpp"
@@ -25,6 +26,8 @@ namespace Resources
 
 	private:
 		bool initialized = false;
+
+		Core::Engine::ThreadManager threadPool;
 
 		ResourcesManager();
 		~ResourcesManager();
@@ -66,6 +69,7 @@ namespace Resources
 		static void clearResources();
 
 		static void updateTexture();
+		static void updateMesh();
 
 		static std::shared_ptr<Font> loadFont(const std::string& fontPath);
 		static std::shared_ptr<Texture> loadTexturePath(const std::string& texturePath);

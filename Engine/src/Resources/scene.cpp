@@ -3,6 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <istream>
+#include <ctime>
+#include <chrono>
 
 #include "imgui.h"
 
@@ -43,6 +45,8 @@ namespace Resources
 
 	void Scene::load(const std::string& _filePath)
 	{
+		auto start = std::chrono::steady_clock::now();
+
 		LowRenderer::RenderManager::clearComponents<LowRenderer::SpriteRenderer>();
 		LowRenderer::RenderManager::clearComponents<LowRenderer::ColliderRenderer>();
 		LowRenderer::RenderManager::clearComponents<LowRenderer::ModelRenderer>();
@@ -94,6 +98,10 @@ namespace Resources
 		scnStream.close();
 
 		//Resources::ResourcesManager::clearResources();
+
+		auto end = std::chrono::steady_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+		std::cout << "\n========== LOADING TIME = " << elapsed.count() << " seconds ==========" << "\n\n";
 	}
 
 	void Scene::save()

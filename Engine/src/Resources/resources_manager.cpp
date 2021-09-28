@@ -18,6 +18,7 @@ namespace Resources
 
 	ResourcesManager::~ResourcesManager()
 	{
+		threadPool.isStopped = true;
 		Core::Debug::Log::info("Destroying the Resources Manager");
 	}
 
@@ -69,10 +70,6 @@ namespace Resources
 		loadShaderProgram("spriteShader", "resources/shaders/spriteVertex.vert", "resources/shaders/spriteFragment.frag");
 		loadShaderProgram("depthShader", "resources/shaders/depthShader.vert", "resources/shaders/depthShader.frag");
 		loadShaderProgram("depthCubeShader", "resources/shaders/depthCubeShader.vert", "resources/shaders/depthShader.frag", "resources/shaders/depthCubeShader.geom");
-
-
-		//for (int i = 0; i < RM->objPath.size(); ++i)
-		//	RM->threadPool.addTask(std::bind(&ResourcesManager::loadObj, RM->objPath[i]));
 
 		loadObj("resources/obj/cube.obj");
 		loadObj("resources/obj/sphere.obj");
@@ -149,6 +146,20 @@ namespace Resources
 			{
 				pair.second->resourceFlag = Resources::ResourceStatus::GLLOADED;
 				pair.second->generateAndFree();
+			}
+		}
+	}
+
+	void ResourcesManager::updateMesh()
+	{
+		ResourcesManager* RM = instance();
+
+		for (auto& pair : RM->meshes)
+		{
+			if (pair.second->resourceFlag == Resources::ResourceStatus::LOADED)
+			{
+				pair.second->resourceFlag = Resources::ResourceStatus::GLLOADED;
+				pair.second->generateVAO();
 			}
 		}
 	}
@@ -491,6 +502,8 @@ namespace Resources
 				else
 				{
 					// Compute and add the mesh
+					//RM->threadPool.addTask(std::bind(&Mesh::compute, &mesh, vertices, texCoords, normals, indices));
+
 					mesh.compute(vertices, texCoords, normals, indices);
 					RM->meshes[mesh.name] = std::make_shared<Mesh>(mesh);
 					names.push_back(mesh.name);
@@ -527,6 +540,7 @@ namespace Resources
 		}
 
 		// Compute and add the mesh
+		//RM->threadPool.addTask(std::bind(&Mesh::compute, &mesh, vertices, texCoords, normals, indices));
 		mesh.compute(vertices, texCoords, normals, indices);
 		RM->meshes[mesh.name] = std::make_shared<Mesh>(mesh);
 		names.push_back(mesh.name);

@@ -29,7 +29,6 @@ namespace Resources
 
 		stbi_set_flip_vertically_on_load_thread(true);
 
-		//int width = 0, height = 0;
 		int channel = 0;
 
 		// Get the color buffer by using stbi
