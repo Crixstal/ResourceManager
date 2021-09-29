@@ -69,7 +69,6 @@ namespace Resources
 		static void clearResources();
 
 		static void updateTexture();
-		static void updateMesh();
 
 		static std::shared_ptr<Font> loadFont(const std::string& fontPath);
 		static std::shared_ptr<Texture> loadTexturePath(const std::string& texturePath);

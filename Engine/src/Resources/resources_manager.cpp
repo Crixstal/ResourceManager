@@ -150,20 +150,6 @@ namespace Resources
 		}
 	}
 
-	void ResourcesManager::updateMesh()
-	{
-		ResourcesManager* RM = instance();
-
-		for (auto& pair : RM->meshes)
-		{
-			if (pair.second->resourceFlag == Resources::ResourceStatus::LOADED)
-			{
-				pair.second->resourceFlag = Resources::ResourceStatus::GLLOADED;
-				pair.second->generateVAO();
-			}
-		}
-	}
-
 	std::shared_ptr<Texture> ResourcesManager::loadTexturePath(const std::string& texturePath)
 	{
 		ResourcesManager* RM = instance();
@@ -502,8 +488,6 @@ namespace Resources
 				else
 				{
 					// Compute and add the mesh
-					//RM->threadPool.addTask(std::bind(&Mesh::compute, &mesh, vertices, texCoords, normals, indices));
-
 					mesh.compute(vertices, texCoords, normals, indices);
 					RM->meshes[mesh.name] = std::make_shared<Mesh>(mesh);
 					names.push_back(mesh.name);
@@ -540,7 +524,6 @@ namespace Resources
 		}
 
 		// Compute and add the mesh
-		//RM->threadPool.addTask(std::bind(&Mesh::compute, &mesh, vertices, texCoords, normals, indices));
 		mesh.compute(vertices, texCoords, normals, indices);
 		RM->meshes[mesh.name] = std::make_shared<Mesh>(mesh);
 		names.push_back(mesh.name);

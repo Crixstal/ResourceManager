@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "thread_manager.hpp"
 #include "mesh.hpp"
 #include "shader.hpp"
 #include "material.hpp"
@@ -26,6 +27,9 @@ namespace LowRenderer
 
 		std::string m_filePath;
 
+		Core::Engine::ThreadManager threadPool;
+		void threadModel(const std::string& filePath, std::shared_ptr<Physics::Transform> transform);
+
 		Model(std::shared_ptr<Physics::Transform>& transform, const std::string& meshName);
 
 	public:
@@ -39,8 +43,6 @@ namespace LowRenderer
 		void simpleDraw(std::shared_ptr<Resources::ShaderProgram> shaderProgram) const;
 		void drawCollider(std::shared_ptr<Resources::ShaderProgram> shaderProgram, Core::Maths::mat4& modelCollider) const;
 		void drawImGui();
-
-		void setDiffuseTexture(const std::string& difTexName);
 
 		std::string getPath() const;
 	};

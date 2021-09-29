@@ -7,10 +7,14 @@
 #include <functional>
 #include <chrono>
 
+#include "singleton.hpp"
+
 namespace Core::Engine
 {
-	class ThreadManager
+	class ThreadManager final : public Singleton<ThreadManager>
 	{
+		friend Singleton<ThreadManager>;
+
 		private:
 			int maxThread = std::thread::hardware_concurrency();
 

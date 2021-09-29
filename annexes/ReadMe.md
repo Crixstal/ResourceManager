@@ -31,8 +31,9 @@ In monothreading, we obtain an average load time of the main scene of 9.30second
 
 ## **Known issues**
 
-Sometimes the buttons texture isn't display.
 Be careful to use your NVIDIA graphic card or the engine will lag.
+Sometimes the buttons texture isn't display.
+If the game is closed too soon (not in the main menu) there is some leaks.
 
 ## **Work**
 
@@ -43,7 +44,7 @@ Done:
 
 In progress:
 ---
-- mesh
+- multithread mesh
 
 ## **Annexes**
 

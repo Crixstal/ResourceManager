@@ -12,6 +12,11 @@ namespace LowRenderer
 	Model::Model(const std::string& filePath, std::shared_ptr<Physics::Transform> transform)
 		: m_transform(transform), m_filePath(filePath)
 	{
+		threadPool.addTask(std::bind(&Model::threadModel, this, filePath, transform));
+	}
+
+	void Model::threadModel(const std::string& filePath, std::shared_ptr<Physics::Transform> transform)
+	{
 		// Load meshes
 		Resources::ResourcesManager::loadObj(filePath);
 
@@ -50,8 +55,15 @@ namespace LowRenderer
 			m_material->sendToShader(shaderProgram);
 			m_material->bindTextures();
 
-			// Draw the mesh
-			m_mesh->draw();
+			//for ()
+			//{
+				if (m_mesh->resourceFlag == Resources::ResourceStatus::LOADED)
+				{
+					m_mesh->resourceFlag = Resources::ResourceStatus::GLLOADED;
+					m_mesh->generateVAO();
+					m_mesh->draw(); // Draw the mesh
+				}
+			//}
 		}
 
 		// Draw children
@@ -101,14 +113,5 @@ namespace LowRenderer
 	void Model::drawImGui()
 	{
 		ImGui::Text(m_filePath.c_str());
-	}
-
-	void Model::setDiffuseTexture(const std::string& difTexName)
-	{
-		
-		for (auto child : m_children)
-		{
-
-		}
 	}
 }

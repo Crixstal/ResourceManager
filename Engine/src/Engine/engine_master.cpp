@@ -46,7 +46,6 @@ namespace Core::Engine
 		EngineMaster* EM = instance();
 
 		Resources::ResourcesManager::updateTexture();
-		//Resources::ResourcesManager::updateMesh();
 
 		if (Core::Input::InputManager::getButtonDown("Edit Toggle"))
 			EM->toggleEditMode();
