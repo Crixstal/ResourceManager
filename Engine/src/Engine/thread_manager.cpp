@@ -11,17 +11,28 @@ namespace Core::Engine
 
 	ThreadManager::~ThreadManager()
 	{
+		stop();
+
 		for (int i = 0; i < trd.size(); ++i)
 			trd[i].join();
 	}
 
 	void ThreadManager::addTask(std::function<void()> task)
 	{
-		while (spinLock.test_and_set()) {}
+		ThreadManager* TM = instance();
 
-		taskList.push_back(task);
+		while (TM->spinLock.test_and_set()) {}
 
-		spinLock.clear();
+		TM->taskList.push_back(task);
+
+		TM->spinLock.clear();
+	}
+
+	void ThreadManager::stop()
+	{
+		ThreadManager* TM = instance();
+
+		TM->isStopped = true;
 	}
 
 	void ThreadManager::infiniteLoop()

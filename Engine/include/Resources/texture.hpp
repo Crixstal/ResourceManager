@@ -19,8 +19,6 @@ namespace Resources
 
 		void generateID(int width, int height, float* colorBuffer);
 
-		Core::Engine::ThreadManager threadPool;
-
 		void threadTexture(const std::string& filePath);
 		int width = 0, height = 0;
 		float* colorBuffer;
@@ -34,7 +32,7 @@ namespace Resources
 
 		void generateAndFree();
 
-		void bind(int textureIndex) const;
+		bool bind(int textureIndex) const;
 
 		static std::shared_ptr<Texture> defaultAlpha;
 		static std::shared_ptr<Texture> defaultAmbient;

@@ -21,7 +21,7 @@ namespace Resources
 		std::vector<float> attributs;
 		std::string name;
 
-		void draw() const;
+		void draw();
 		void generateVAO();
 		void compute(std::vector<Core::Maths::vec3>& vertices, std::vector<Core::Maths::vec3>& texCoords, std::vector<Core::Maths::vec3>& normals, std::vector<unsigned int>& indices);
 	};

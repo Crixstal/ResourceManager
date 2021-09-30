@@ -2,8 +2,15 @@
 
 namespace Resources
 {
-	void Mesh::draw() const
+	void Mesh::draw()
 	{
+		if (resourceFlag == Resources::ResourceStatus::LOADED)
+		{
+			resourceFlag = Resources::ResourceStatus::GLLOADED;
+			generateVAO();
+			return;
+		}
+
 		// Bind the mesh's VAO and draw it
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)(attributs.size()));

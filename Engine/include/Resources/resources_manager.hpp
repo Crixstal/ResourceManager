@@ -27,8 +27,6 @@ namespace Resources
 	private:
 		bool initialized = false;
 
-		Core::Engine::ThreadManager threadPool;
-
 		ResourcesManager();
 		~ResourcesManager();
 

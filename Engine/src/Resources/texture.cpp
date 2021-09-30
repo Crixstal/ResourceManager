@@ -20,7 +20,7 @@ namespace Resources
 	{
 		resourceFlag = ResourceStatus::UNLOADED;
 
-		threadPool.addTask(std::bind(&Texture::threadTexture, this, filePath));
+		Core::Engine::ThreadManager::addTask(std::bind(&Texture::threadTexture, this, filePath));
 	}
 
 	void Texture::threadTexture(const std::string& filePath)
@@ -52,7 +52,7 @@ namespace Resources
 
 	Texture::~Texture()
 	{
-		threadPool.isStopped = true;
+
 		glDeleteTextures(1, &textureID);
 	}
 
@@ -89,9 +89,14 @@ namespace Resources
 		return textureID;
 	}
 
-	void Texture::bind(int textureIndex) const
+	bool Texture::bind(int textureIndex) const
 	{
+		if (!textureID)
+			return false;
+
 		glActiveTexture(GL_TEXTURE0 + textureIndex);
 		glBindTexture(GL_TEXTURE_2D, textureID);
+
+		return true;
 	}
 }

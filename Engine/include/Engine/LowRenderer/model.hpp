@@ -27,7 +27,6 @@ namespace LowRenderer
 
 		std::string m_filePath;
 
-		Core::Engine::ThreadManager threadPool;
 		void threadModel(const std::string& filePath, std::shared_ptr<Physics::Transform> transform);
 
 		Model(std::shared_ptr<Physics::Transform>& transform, const std::string& meshName);
@@ -36,7 +35,6 @@ namespace LowRenderer
 		std::shared_ptr<Physics::Transform> m_transform = nullptr;
 
 		Model(const std::string& filePath, std::shared_ptr<Physics::Transform> transform);
-
 		Model() = default;
 
 		void draw(std::shared_ptr<Resources::ShaderProgram> shaderProgram) const;

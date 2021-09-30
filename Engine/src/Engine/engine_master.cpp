@@ -32,6 +32,7 @@ namespace Core::Engine
 		Physics::PhysicManager::kill();
 		LowRenderer::RenderManager::kill();
 		SoundManager::kill();
+		Core::Engine::ThreadManager::kill();
 	}
 
 	void EngineMaster::toggleEditMode()

@@ -30,7 +30,8 @@ namespace Core::Engine
 			ThreadManager();
 			~ThreadManager();
 
-			void addTask(std::function<void()> task);
+			static void addTask(std::function<void()> task);
+			static void stop();
 			void infiniteLoop();
 	};
 }

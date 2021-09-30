@@ -41,10 +41,7 @@ Done:
 ---
 - threadpool
 - multithread textures
-
-In progress:
----
-- multithread mesh
+- multithread meshes
 
 ## **Annexes**
 
