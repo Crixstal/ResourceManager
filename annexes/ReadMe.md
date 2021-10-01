@@ -27,13 +27,13 @@ in the folder x64/Release (or x64/Debug), they can be found on sirius: GP2_MEHAL
 
 The resources (obj, textures, mtl, etc) are in the zip file on sirius: GP2_MEHALIN_M/BIN/resources.
 
-In monothreading, we obtain an average load time of the main scene of 9.30seconds for 10 consecutive builds (1second to display the main menu) in Release.
+In monothreading, we obtain an average load time of the main scene of 9.30 seconds for 10 consecutive builds (1second to display the main menu) in Release. <br>
+In multithreading, we obtain an average load time of the main scene of 4.22 seconds for 10 consecutive builds in Release.
 
 ## **Known issues**
 
 Be careful to use your NVIDIA graphic card or the engine will lag.
 Sometimes the buttons texture isn't display.
-If the game is closed too soon (not in the main menu) there is some leaks.
 
 ## **Work**
 
@@ -42,6 +42,10 @@ Done:
 - threadpool
 - multithread textures
 - multithread meshes
+
+In progress:
+---
+- timer
 
 ## **Annexes**
 

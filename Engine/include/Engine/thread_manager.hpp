@@ -22,6 +22,9 @@ namespace Core::Engine
 
 			std::atomic_flag spinLock = ATOMIC_FLAG_INIT;
 
+			//std::chrono::steady_clock::time_point clock_begin;
+			//std::chrono::steady_clock::time_point clock_end;
+
 		public:
 			std::vector<std::thread> trd;
 
@@ -31,7 +34,6 @@ namespace Core::Engine
 			~ThreadManager();
 
 			static void addTask(std::function<void()> task);
-			static void stop();
 			void infiniteLoop();
 	};
 }
