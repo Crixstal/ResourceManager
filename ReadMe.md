@@ -2,12 +2,10 @@
 
 ## **Summary**
 
-- [Description](##Description)
-- [Informations](##Informations)
-- [Known issues](##Known%20issues)
-- [Work done](##Work)
-- [Third-party programs and libraries](##Third-party%20programs%20and%20libraries)
-- [References](##References)
+- [Description](#Description)
+- [Informations](#Informations)
+- [Known issues](#Known%20issues)
+- [Work done](#Work)
 
 <br>
 
@@ -49,39 +47,7 @@ Sometimes the buttons texture isn't display.
 - threadpool
 - multithread textures
 - multithread meshes
-
+  
 <br>
-
-## **Third-party programs and libraries**
-
-irrKlang
----
-https://www.ambiera.com/irrklang/
-
-stb
----
-https://github.com/nothings/stb
-
-GLFW
----
-https://www.glfw.org/
-
-Glad
----
-https://glad.dav1d.de/
-
-<br>
-
-## **References**
-
-OpenGL:
----
-- Gives the different functions of OpenGL:
-http://docs.gl/
-- Ditto:
-https://www.khronos.org/opengl/
-
-C++:
----
-- C++ references: https://en.cppreference.com/
-- Thread: http://www.cplusplus.com/reference/thread/thread/
+  
+  [Head of page](#Summary)
